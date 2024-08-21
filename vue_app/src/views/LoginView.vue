@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import Button from '@/components/buttons/Button.vue'
 import { ref } from 'vue'
+import { toast } from 'vue3-toastify'
 
 const email = ref<string>('')
 const password = ref<string>('')
 
 async function handleLogin() {
-  alert('signing up' + email.value + password.value)
+  toast.success(`${email.value} ${password.value}`)
 }
 </script>
 

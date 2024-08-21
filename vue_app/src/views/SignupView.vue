@@ -2,6 +2,7 @@
 import Button from '@/components/buttons/Button.vue'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
 const email = ref<string>('')
 const name = ref<string>('')
@@ -13,10 +14,7 @@ function handleTogglePasswordVisibility() {
 }
 
 async function handleSignUp() {
-  alert(`
-  ${email.value}
-  ${name.value}
-  ${password.value}`)
+  toast.success(`${email.value} ${name.value} ${password.value}`)
 }
 </script>
 
