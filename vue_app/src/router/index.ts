@@ -18,9 +18,17 @@ const router = createRouter({
       component: () => import('@/views/AboutView.vue')
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/Settings.vue')
+    },
+    {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/SignupView.vue')
+      component: () => import('@/views/SignupView.vue'),
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/login',
@@ -30,9 +38,26 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)',
       name: 'not-found',
-      component: () => import('@/views/NotFound.vue')
+      component: () => import('@/views/NotFound.vue'),
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
+})
+
+router.beforeEach((to, _from, next) => {
+  const auth = true
+
+  if (to.name === 'login') {
+    next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
+  } else if (to.meta && to.meta.requiresAuth === false) {
+    next() // requires auth is explicitly set to false
+  } else if (auth) {
+    next() // i'm logged in. carry on
+  } else {
+    next({ name: 'login' }) // always put your redirect as the default case
+  }
 })
 
 export default router
